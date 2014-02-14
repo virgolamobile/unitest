@@ -28,7 +28,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		url : "/text",
 		templateUrl : "views/partials/poster/editor/slide/tools/text.html",
 		controller : function($scope) {
-			
+		
 		}
 	})
 	.state('editor.slide.tools.font',
@@ -36,7 +36,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		url : "/font",
 		templateUrl : "views/partials/poster/editor/slide/tools/font.html",
 		controller : function($scope) {
-			
+			$scope.$parent.text = $scope.text;
 		}
 	})
 	.state('editor.slide.tools.color',
