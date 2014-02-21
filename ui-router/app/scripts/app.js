@@ -2,6 +2,34 @@
 
 var app = angular.module('app', ['ui.router']);
 
+// ma i servizi non sono che dei facade? mmh...
+app.factory('poster', function() {
+	var service;
+	
+	var poster = {
+		text:''
+	}
+	
+	service = {
+		setText: function(text)
+		{
+			poster.text = text;
+			return text;
+		},
+		getText: function()
+		{
+			return poster.text;
+		},
+		getAll: function()
+		{
+			return poster;
+		}
+	};
+
+	return service;
+}); 
+
+
 app.config(function($stateProvider, $urlRouterProvider) {
 
 	$urlRouterProvider.otherwise("/editor");
@@ -11,7 +39,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	.state('editor',
 	{
 		url : "/editor",
-		templateUrl : "views/partials/poster/editor.html"
+		templateUrl : "views/partials/poster/editor.html",
+		controller: function($scope,poster)
+		{
+			$scope.debugger = function(variable)
+			{
+				var posterDebug = poster.getAll();
+				console.log(posterDebug)
+			}
+		}
 	})
 	.state('editor.slide',
 	{
@@ -27,8 +63,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	{
 		url : "/text",
 		templateUrl : "views/partials/poster/editor/slide/tools/text.html",
-		controller : function($scope) {
-		 
+		controller : function($scope,poster) {
+			$scope.$watch(
+				"text",
+				function(newvalue,oldvalue)
+				{
+					poster.setText(newvalue);
+				}
+			);
 		}
 	})
 	.state('editor.slide.tools.font',
