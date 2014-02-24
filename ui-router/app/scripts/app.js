@@ -4,29 +4,57 @@ var app = angular.module('app', ['ui.router']);
 
 // ma i servizi non sono che dei facade? mmh...
 app.factory('poster', function() {
-	var service;
+	var services;
 	
-	var poster = {
-		text:''
+	var slides = {
+		text: '',
+		font: '',
+		color: {
+			slideFore: '',
+			slideBack: '',
+			docFore: '',
+			docBack: ''
+		},
+		wand: {
+			
+		}		
 	}
 	
-	service = {
+	services = {
+		
+		// text
 		setText: function(text)
 		{
-			poster.text = text;
-			return text;
+			slides.text = text;
 		},
 		getText: function()
 		{
-			return poster.text;
+			return slides.text;
 		},
-		getAll: function()
+		
+		// color
+		setColor: function(param,color)
 		{
-			return poster;
+			slides.color[param] = color;
+		},
+		getColor: function(param)
+		{
+			return slides.color[param];
+		},
+		
+		// font
+		setFont: function(font)
+		{
+			slides.font = font;
+		},
+		getFont: function()
+		{
+			return slides.font;
 		}
+
 	};
 
-	return service;
+	return services;
 }); 
 
 
@@ -39,15 +67,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	.state('editor',
 	{
 		url : "/editor",
-		templateUrl : "views/partials/poster/editor.html",
-		controller: function($scope,poster)
-		{
-			$scope.debugger = function(variable)
-			{
-				var posterDebug = poster.getAll();
-				console.log(posterDebug)
-			}
-		}
+		templateUrl : "views/partials/poster/editor.html"
 	})
 	.state('editor.slide',
 	{
@@ -63,7 +83,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	{
 		url : "/text",
 		templateUrl : "views/partials/poster/editor/slide/tools/text.html",
-		controller : function($scope,poster) {
+		controller : function($scope,poster,resolvedData)
+		{
+			// recupero lo stato
+			$scope.text = resolvedData.text;
+			
+			// osservo i cambiamenti
 			$scope.$watch(
 				"text",
 				function(newvalue,oldvalue)
@@ -71,22 +96,85 @@ app.config(function($stateProvider, $urlRouterProvider) {
 					poster.setText(newvalue);
 				}
 			);
+		},
+		resolve:
+		{
+			resolvedData: function(poster)
+			{
+				return {
+					text: poster.getText()
+				};	
+			}
 		}
 	})
 	.state('editor.slide.tools.font',
 	{
 		url : "/font",
 		templateUrl : "views/partials/poster/editor/slide/tools/font.html",
-		controller : function($scope) {
-			$scope.$parent.text = $scope.text;
+		controller : function($scope)
+		{
+			$scope.fonts = [
+				{name:'arial', label:'Arial'},
+				{name:'times', label:'Times New Roman'}
+			];
+			
+			// selezione
+			$scope.font = $scope.fonts[0];
 		}
 	})
 	.state('editor.slide.tools.color',
 	{
 		url : "/color",
 		templateUrl : "views/partials/poster/editor/slide/tools/color.html",
-		controller : function($scope) {
-			
+		controller : function($scope,poster,resolvedData)
+		{
+			// recupero lo stato
+			$scope.slideFore = resolvedData.slideFore;
+			$scope.slideBack = resolvedData.slideBack;
+			$scope.docFore = resolvedData.docFore;
+			$scope.docBack = resolvedData.docBack;
+
+			// osservo i cambiamenti
+			$scope.$watch(
+				"slideFore",
+				function(newvalue,oldvalue)
+				{
+					poster.setColor('slideFore',newvalue);
+				}
+			);
+			$scope.$watch(
+				"slideBack",
+				function(newvalue,oldvalue)
+				{
+					poster.setColor('slideBack',newvalue);
+				}
+			);
+			$scope.$watch(
+				"docFore",
+				function(newvalue,oldvalue)
+				{
+					poster.setColor('docFore',newvalue);
+				}
+			);
+			$scope.$watch(
+				"docBack",
+				function(newvalue,oldvalue)
+				{
+					poster.setColor('docBack',newvalue);
+				}
+			);
+		},
+		resolve:
+		{
+			resolvedData: function(poster)
+			{
+				return {
+					slideFore: poster.getColor('slideFore'),
+					slideBack: poster.getColor('slideBack'),
+					docFore: poster.getColor('docFore'),
+					docBack: poster.getColor('docBack')
+				};	
+			}
 		}
 	})
 	.state('editor.slide.tools.image',
