@@ -1,5 +1,4 @@
-<a ng-click="debugger(poster)">debug poster</a>
-<br /><br />
-
 Editor: (<a ui-sref="editor.slide">open slide</a>)
+Cambia Slide <select ng-model="slide" ng-options="slide.id for slide in slides"></select>
+
 <div ui-view></div>
