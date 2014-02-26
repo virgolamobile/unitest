@@ -1,0 +1,12 @@
+{
+  "name": "ui-router",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "1.2.3",
+    "angular-ui-router": "0.2.0",
+    "angular-animate": "1.2.3"
+  },
+  "homepage": "https://github.com/virgolamobile/unitest",
+  "license": "MIT",
+  "private": true
+}

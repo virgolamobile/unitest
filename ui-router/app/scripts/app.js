@@ -1,6 +1,29 @@
 'use strict';
 
-var app = angular.module('app', ['ui.router']);
+var app = angular.module('app', ['ngAnimate','ui.router']);
+
+angular.module('app')
+.controller('appController', function ($scope) {
+  /*
+  $scope.slide = '';
+  
+  $rootScope.$on('$stateChangeStart', function(){
+    $scope.slide = $scope.slide || 'slide-left'
+  });
+  
+  $rootScope.back = function(){
+    $scope.slide = 'slide-right';
+    $window.history.back();
+  }  
+  
+  $rootScope.forward = function(){
+    $scope.slide = 'slide-left';
+    $window.history.forward();
+  }
+  */   	
+});
+
+
 
 // ma i servizi non sono che dei facade? mmh...
 app.factory('poster', function() {
@@ -94,6 +117,8 @@ app.factory('poster', function() {
 }); 
 
 
+
+
 app.config(function($stateProvider, $urlRouterProvider) {
 
 	$urlRouterProvider.otherwise("/editor");
@@ -104,14 +129,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	{
 		url : "/editor",
 		templateUrl : "views/partials/poster/editor.html",
-		controller: function($scope,poster)
+		controller: function($scope,$state,poster)
 		{
 			// quante slides ho?
 			$scope.slides = [{id: 0},{id: 1},{id: 2}];
-			
+
 			// la slide corrente
-			$scope.slide = $scope.slides[1];
-			
+			$scope.slide = poster.getActiveSlide();
+			$scope.slide = $scope.slides[0];
+
 			// il cambio di slide è monitorato
 			$scope.$watch(
 				"slide",
@@ -120,10 +146,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
 					// prima setto la slide attiva
 					poster.setActiveSlide(newvalue);
 					
-					// poi rigenero lo scope. (ma è corretto? dovrei fare un promise?)
-					$scope.text = poster.text;
+					$state.transitionTo('editor.slide.tools');
 				}
 			);
+			
+			$scope.changeSlide = function(slide)
+			{
+				// setto slide
+				$scope.slide = slide;
+			}
 
 		}
 	})
@@ -139,13 +170,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	.state('editor.slide.tools',
 	{
 		url : "/tools",
-		templateUrl : "views/partials/poster/editor/slide/tools.html"
+		templateUrl : "views/partials/poster/editor/slide/tools.html",
+		controller: function($scope,$state,$rootScope)
+		{
+			$rootScope.$on('$stateChangeSuccess', function()
+			{
+				$scope.tools = $scope.tools || 'tool-close';
+			});
+		}
 	})
 	.state('editor.slide.tools.text',
 	{
 		url : "/text",
 		templateUrl : "views/partials/poster/editor/slide/tools/text.html",
-		controller : function($scope,poster,resolvedData)
+		controller : function($scope,poster,$rootScope,resolvedData)
 		{
 			// recupero lo stato
 			$scope.text = resolvedData.text;
@@ -158,6 +196,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 					poster.setText(newvalue);
 				}
 			);
+			
+			$rootScope.$on('$stateChangeSuccess', function()
+			{
+				$scope.tools = 'tool-open';
+			});
 		},
 		resolve:
 		{
@@ -165,7 +208,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			{
 				return {
 					text: poster.getText()
-				};	
+				};
 			}
 		}
 	})

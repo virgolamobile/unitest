@@ -1,0 +1,73 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    
+	<style type="text/css">
+	    .ng-enter {
+		  -webkit-transition: 1s;
+		  transition: 1s;
+		  
+		  margin-left: 100%;
+		}
+		
+		.ng-enter-active {
+		  margin-left: 0;
+		}
+		
+		.ng-leave {
+		  -webkit-transition: 1s;
+		  transition: 1s;
+		  
+		  margin-left: 0;
+		}
+		
+		.ng-leave-active {
+		  margin-left: 100%;
+		}
+		
+		.ng-move {
+		  -webkit-transition: 1s;
+		  transition: 1s;
+		  
+		  background: gold;
+		}
+		
+		.ng-move-active {
+		  background: #fff;
+		}
+	</style>
+    
+  </head>
+  <body ng-app="app">
+
+	<div ng-controller="appController">
+    	<div ng-view>
+    		
+    		<div>
+    			Cerca: <input ng-model="search" />
+    		</div>
+    		
+    		<ul>
+				<li ng-repeat="element in list | filter:search">{{element.name}}</li>
+			</ul>
+			
+			<button ng-click="addElement()">Aggiungi un elemento</button>
+			
+    	</div>
+    </div>
+
+    <script src="../../bower_components/angular/angular.js"></script>
+    <script src="../../bower_components/angular-animate/angular-animate.min.js"></script>    
+
+	<script src="scripts/app.js"></script>
+
+</body>
+</html>
