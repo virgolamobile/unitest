@@ -1,0 +1,42 @@
+// PROPORZIONE
+$scalePoster: 2; // scala elementi rispetto alla proporzione 5/7
+$scaleToolsIcon: 3; // scala icone tool rispetto pulsanti principali
+
+// SETUP
+$editorWidth: 500px / $scalePoster;
+$editorHeight: 700px / $scalePoster;
+$toolsWidth: 100px / $scalePoster;
+$toolsHeight: 100px / $scalePoster;
+
+$toolPanelHeight: 200px / $scalePoster;
+$toolPanelWidth: $editorWidth;
+
+
+#editor{
+  position:absolute;top:50%;left:50%;
+  width:$editorWidth;height:$editorHeight;
+  margin:0; margin-top:-($editorHeight/2 + $toolsHeight/2);margin-left:-($editorWidth/2);
+  background:green;
+}
+
+// POSTER
+#poster {
+  width:$editorWidth;height:$editorHeight;
+  background: red;
+}
+
+// TOOL PANEL
+.toolPanel {
+  width:$toolPanelWidth;height:$toolPanelHeight;
+  background:#eee;
+  
+  &#toolText {
+  
+    textarea{
+      width:($toolPanelWidth - 10);height:($toolPanelHeight - 10);
+      margin:5px;padding:2px;
+      border:1px solid #ccc;background:transparent;
+    }
+  }
+}
+

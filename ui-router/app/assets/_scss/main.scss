@@ -1,0 +1,22 @@
+$icon-font-path: "/bower_components/sass-bootstrap/fonts/";
+
+@import 'functions.scss';
+@import 'reset.scss';
+@import 'background.scss';
+@import 'poster.scss';
+@import 'editor.scss';
+@import 'optimization.scss'; 
+
+// reset bootstrap
+body{background:transparent;}
+
+// bootstrap container
+.container{margin-top:0;margin-bottom:0;}
+
+// background
+
+
+.doc {}
+
+//*{background:transparent;}
+

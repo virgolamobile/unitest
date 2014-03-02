@@ -10,49 +10,24 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     
-	<style type="text/css">
-	    .tool-open {
-			background:#aaa;
-		}
-		
-	    .tool-open-enter {
-			-webkit-transition: 1s;
-			transition: 1s;
-			background:gold;
-		}
-		
-		.tool-open-active {
-			opacity:1;
-			background:transparent;
-		}
-	    .tool-close-enter {
-			-webkit-transition: 1s;
-			transition: 1s;
-			background:red;
-		}
-		
-		.tool-close-active {
-			opacity:1;
-			background:transparent;
-		}
-
-	</style>
-
-    
   </head>
   <body ng-app="app">
 
 	<!-- UI-VIEW invece di ng-view -->
-	<div ng-controller="appController">
+	<div ng-controller="poster">
+		
     	<div ui-view></div>
+
     </div>
 
     <script src="../../bower_components/angular/angular.js"></script>
     <script src="../../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="../../bower_components/angular-animate/angular-animate.min.js"></script>    
 
-	<script src="scripts/app.js"></script>
-	<script src="scripts/controllers/main.js"></script>
+	<script src="assets/cts/app.js"></script>
+	<script src="assets/cts/controllers/main.js"></script>
+	
+	<link type="text/css" rel="stylesheet" href="assets/css/main.css" />
 
 </body>
 </html>

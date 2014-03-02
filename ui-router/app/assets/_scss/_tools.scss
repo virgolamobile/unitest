@@ -1,0 +1,53 @@
+// PULSANTI TOOLS
+#tools{
+  position:absolute;bottom:-$toolsWidth;left:0;
+  margin:0;
+  
+  @include unselectable;
+
+  ul#toolsButtons{
+    margin:0;padding:0;
+    list-style-type:none;
+    
+    li{
+      display:block; float:left;
+      background:#d3e1e4;
+      
+      a{
+        position:relative;
+        display:block;
+        width:$toolsWidth;height:$toolsHeight;
+        cursor:pointer;
+        @include unselectable;
+        
+        svg {
+          position:absolute;top:50%;left:50%;
+          margin:0;margin-top:-($toolsWidth/($scaleToolsIcon + 2));margin-left:-($toolsHeight/($scaleToolsIcon + 2));
+          width:$toolsWidth/$scaleToolsIcon;height:$toolsWidth/$scaleToolsIcon;
+          @include unselectable;
+          
+          .toolsIconFore {fill:#222;}
+        } // dimensioni dell'icona
+        
+        &:hover {
+          background:#c7d6d9; // coloro il background di a
+        
+          svg .toolsIconFore{fill:#000;} // color l'icona svg
+     
+        }
+        
+        &.active {
+          svg .toolsIconFore {
+            fill:green;
+          }
+        }
+        
+        &#toolsText img:hover{fill:red}
+        &#toolsFont {}
+        &#toolsColor {}
+        &#toolsImage {}
+        &#toolsWand {}
+      }
+    }
+  }
+}

@@ -3,27 +3,9 @@
 var app = angular.module('app', ['ngAnimate','ui.router']);
 
 angular.module('app')
-.controller('appController', function ($scope) {
-  /*
-  $scope.slide = '';
-  
-  $rootScope.$on('$stateChangeStart', function(){
-    $scope.slide = $scope.slide || 'slide-left'
-  });
-  
-  $rootScope.back = function(){
-    $scope.slide = 'slide-right';
-    $window.history.back();
-  }  
-  
-  $rootScope.forward = function(){
-    $scope.slide = 'slide-left';
-    $window.history.forward();
-  }
-  */   	
+.controller('poster', function ($scope) {
+ 	
 });
-
-
 
 // ma i servizi non sono che dei facade? mmh...
 app.factory('poster', function() {
@@ -121,14 +103,41 @@ app.factory('poster', function() {
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
-	$urlRouterProvider.otherwise("/editor");
+	$urlRouterProvider.otherwise("/poster");
 
 	// EDITOR
 	$stateProvider
-	.state('editor',
+	.state('archive',
+	{
+		url: '/archive',
+		templateUrl: 'views/partials/archive.html',
+		controller: function($scope)
+		{
+			console.log('archive');
+		}
+	})
+	.state('poster',
+	{
+		url: '/poster',
+		templateUrl: 'views/partials/poster.html',
+		controller: function($scope)
+		{
+			console.log('poster');
+		}
+	})
+	.state('poster.slide',
+	{
+		url : "/slide",
+		templateUrl : "views/partials/poster/slide.html",
+		controller: function($scope)
+		{
+
+		}
+	})
+	.state('poster.slide.editor',
 	{
 		url : "/editor",
-		templateUrl : "views/partials/poster/editor.html",
+		templateUrl : "views/partials/poster/slide/editor.html",
 		controller: function($scope,$state,poster)
 		{
 			// quante slides ho?
@@ -146,7 +155,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 					// prima setto la slide attiva
 					poster.setActiveSlide(newvalue);
 					
-					$state.transitionTo('editor.slide.tools');
+					$state.transitionTo('poster.slide.editor.tools');
 				}
 			);
 			
@@ -158,19 +167,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 		}
 	})
-	.state('editor.slide',
-	{
-		url : "/slide",
-		templateUrl : "views/partials/poster/editor/slide.html",
-		controller: function($scope)
-		{
-
-		}
-	})
-	.state('editor.slide.tools',
+	.state('poster.slide.editor.tools',
 	{
 		url : "/tools",
-		templateUrl : "views/partials/poster/editor/slide/tools.html",
+		templateUrl : "views/partials/poster/slide/editor/tools.html",
 		controller: function($scope,$state,$rootScope)
 		{
 			$rootScope.$on('$stateChangeSuccess', function()
@@ -179,10 +179,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			});
 		}
 	})
-	.state('editor.slide.tools.text',
+	.state('poster.slide.editor.tools.text',
 	{
 		url : "/text",
-		templateUrl : "views/partials/poster/editor/slide/tools/text.html",
+		templateUrl : "views/partials/poster/slide/editor/tools/text.html",
 		controller : function($scope,poster,$rootScope,resolvedData)
 		{
 			// recupero lo stato
@@ -212,10 +212,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		}
 	})
-	.state('editor.slide.tools.font',
+	.state('poster.slide.editor.tools.font',
 	{
 		url : "/font",
-		templateUrl : "views/partials/poster/editor/slide/tools/font.html",
+		templateUrl : "views/partials/poster/slide/editor/tools/font.html",
 		controller : function($scope)
 		{
 			$scope.fonts = [
@@ -227,10 +227,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			$scope.font = $scope.fonts[0];
 		}
 	})
-	.state('editor.slide.tools.color',
+	.state('poster.slide.editor.tools.color',
 	{
 		url : "/color",
-		templateUrl : "views/partials/poster/editor/slide/tools/color.html",
+		templateUrl : "views/partials/poster/slide/editor/tools/color.html",
 		controller : function($scope,poster,resolvedData)
 		{
 			// recupero lo stato
@@ -282,18 +282,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		}
 	})
-	.state('editor.slide.tools.image',
+	.state('poster.slide.editor.tools.image',
 	{
 		url : "/image",
-		templateUrl : "views/partials/poster/editor/slide/tools/image.html",
+		templateUrl : "views/partials/poster/slide/editor/tools/image.html",
 		controller : function($scope) {
 			
 		}
 	})
-	.state('editor.slide.tools.wand',
+	.state('poster.slide.editor.tools.wand',
 	{
 		url : "/wand",
-		templateUrl : "views/partials/poster/editor/slide/tools/wand.html",
+		templateUrl : "views/partials/poster/slide/editor/tools/wand.html",
 		controller : function($scope) {
 			
 		}

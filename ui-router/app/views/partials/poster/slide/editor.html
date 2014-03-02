@@ -1,0 +1,15 @@
+<!-- LINK PER ACCEDERE ALLE SLIDE
+<a ui-sref="editor.slide">open slide</a>
+-->
+
+<!-- SELECT PER APRIRE LE SLIDE
+<select ng-model="slide" ng-options="slide.id for slide in slides"></select>
+-->
+
+<ul id="slidesList">
+	<li ng-repeat="slide in slides" ng-click="changeSlide(slide)">{{slide.id}}</li>	
+</ul>
+
+<div ui-view id="slides"></div>
+
+
