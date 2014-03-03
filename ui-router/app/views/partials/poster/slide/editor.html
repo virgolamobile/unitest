@@ -6,10 +6,6 @@
 <select ng-model="slide" ng-options="slide.id for slide in slides"></select>
 -->
 
-<ul id="slidesList">
-	<li ng-repeat="slide in slides" ng-click="changeSlide(slide)">{{slide.id}}</li>	
-</ul>
-
-<div ui-view id="slides"></div>
+<div ui-view id="tools"></div>
 
 

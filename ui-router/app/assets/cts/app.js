@@ -10,53 +10,46 @@ angular.module('app')
 // ma i servizi non sono che dei facade? mmh...
 app.factory('poster', function() {
 	var services;
-	var activeSlide = {id:0};
+	var activeSlide = 0;
 	var slides = [];
-	
-	// init slides
-	slides[0] = {
-		text: '',
-		font: '',
-		color: {
-			slideFore: '',
-			slideBack: '',
-			docFore: '',
-			docBack: ''
-		},
-		wand: {
-			
-		}		
-	};
 
 	services = {
 
 		// active slide
+		addSlide: function(id)
+		{
+			// se non passo l'id, creo un nuovo id, l'ultima
+			if(typeof id == 'undefined')
+			{
+				var id = slides.length;
+			}
+			
+			// creo la nuova slide
+			slides[id] = {
+				id: id,
+				text: '',
+				font: '',
+				color: {
+					slideFore: '',
+					slideBack: '',
+					docFore: '',
+					docBack: ''
+				},
+				wand: {
+					
+				}		
+			};
+		},
 		setActiveSlide: function(id)
 		{
 			// segno la slide attiva
 			activeSlide = id;
 
 			// se non esiste la creo
-			if(typeof slides[activeSlide.id] == 'undefined')
+			if(typeof slides[id] == 'undefined')
 			{
-
-				// creo la nuova slide
-				slides[activeSlide.id] = {
-					text: '',
-					font: '',
-					color: {
-						slideFore: '',
-						slideBack: '',
-						docFore: '',
-						docBack: ''
-					},
-					wand: {
-						
-					}		
-				};
-				
-			}
-			
+				this.addSlide(id);
+			}		
 		},
 		getActiveSlide: function()
 		{
@@ -66,31 +59,37 @@ app.factory('poster', function() {
 		// text
 		setText: function(text)
 		{
-			slides[activeSlide.id].text = text;
+			slides[activeSlide].text = text;
 		},
 		getText: function()
 		{
-			return slides[activeSlide.id].text;
+			return slides[activeSlide].text;
 		},
 		
 		// color
 		setColor: function(param,color)
 		{
-			slides[activeSlide.id].color[param] = color;
+			slides[activeSlide].color[param] = color;
 		},
 		getColor: function(param)
 		{
-			return slides[activeSlide.id].color[param];
+			return slides[activeSlide].color[param];
 		},
 		
 		// font
 		setFont: function(font)
 		{
-			slides[activeSlide.id].font = font;
+			slides[activeSlide].font = font;
 		},
 		getFont: function()
 		{
-			return slides[activeSlide.id].font;
+			return slides[activeSlide].font;
+		},
+		
+		// debug
+		getSlides: function()
+		{
+			return slides;
 		}
 
 	};
@@ -122,30 +121,24 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		templateUrl: 'views/partials/poster.html',
 		controller: function($scope)
 		{
-			console.log('poster');
+
 		}
 	})
 	.state('poster.slide',
 	{
 		url : "/slide",
 		templateUrl : "views/partials/poster/slide.html",
-		controller: function($scope)
-		{
-
-		}
-	})
-	.state('poster.slide.editor',
-	{
-		url : "/editor",
-		templateUrl : "views/partials/poster/slide/editor.html",
 		controller: function($scope,$state,poster)
 		{
-			// quante slides ho?
-			$scope.slides = [{id: 0},{id: 1},{id: 2}];
-
+			$scope.slides = poster.getSlides();
+			// se nessuna, allora ne creo una.
+			if($scope.slides.length == 0) {
+				poster.addSlide();				
+			}
+			$scope.slides = poster.getSlides();
+			
 			// la slide corrente
-			$scope.slide = poster.getActiveSlide();
-			$scope.slide = $scope.slides[0];
+			//$scope.activeSlide = poster.getActiveSlide();
 
 			// il cambio di slide è monitorato
 			$scope.$watch(
@@ -164,13 +157,28 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				// setto slide
 				$scope.slide = slide;
 			}
+			
+			$scope.addSlide = function()
+			{
+				// aggiungo una slide in coda
+				poster.addSlide();
+			}
+		}
+	})
+	.state('poster.slide.editor',
+	{
+		url : "/editor",
+		templateUrl : "views/partials/poster/slide/editor.html",
+		controller: function($scope)
+		{
+			
 
 		}
 	})
 	.state('poster.slide.editor.tools',
 	{
 		url : "/tools",
-		templateUrl : "views/partials/poster/slide/editor/tools.html",
+		templateUrl : "views/partials/poster/slide/editor/tools.php",
 		controller: function($scope,$state,$rootScope)
 		{
 			$rootScope.$on('$stateChangeSuccess', function()

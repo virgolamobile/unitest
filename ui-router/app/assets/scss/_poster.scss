@@ -1,0 +1,86 @@
+$scale: 2;
+$scaleToolIcon: 3;
+
+// SIZES SETUP
+// slides
+$slideWidth: 500px / $scale;
+$slideHeight: 700px / $scale;
+$slidesListWidth: 30px;
+$slidesListHeight: 20px;
+// tools
+$toolWidth: 100px / $scale;
+$toolHeight: 100px / $scale;
+$toolsContainerWidth: $slideWidth;
+$toolsContainerHeight: 100px;
+// at the end... the poster, with all: editor, slidesList, tools, ecc
+$posterWidth: $slideWidth;
+$posterHeight: $slideHeight + $slidesListHeight + $toolHeight;
+
+// POSTER
+#poster {
+  position:absolute;top:50%;left:50%;
+  width:$posterWidth;height:$posterHeight;
+  margin:0; margin-top:-($posterHeight/2);margin-left:-($posterWidth/2);
+  background:red;
+}
+
+// SLIDES
+ul#slidesList {
+  position:absolute;top:0;left:0;
+
+  li {
+    float:left;
+    display:block;
+    width:$slidesListWidth;height:$slidesListHeight;
+    text-align:center;line-height:$slidesListHeight;
+    background:green;
+    cursor:pointer;
+  }
+}
+
+#slide {
+  position:absolute;left:0;top:$slidesListHeight;
+  width:$slideWidth;height:$slideHeight;
+  background:blue;
+}
+
+// TOOLS
+#tools {
+  position:absolute;left:0;bottom:0;
+  width:$slideWidth;height:$toolHeight;
+  background:grey;
+}
+
+ul#toolsList {
+  width:$slideWidth;height:$toolHeight;
+  
+  li {
+    float:left;
+    position:relative;
+    display:block;
+    width:$toolWidth;height:$toolHeight;
+    cursor: pointer;
+    
+    svg {
+      position:absolute;top:50%;left:50%;
+      margin:0;margin-top:-($toolWidth/($scaleToolIcon + 2));margin-left:-($toolHeight/($scaleToolIcon + 2));
+      width:$toolWidth/$scaleToolIcon;height:$toolWidth/$scaleToolIcon;
+    }
+    
+    .toolsIconFore {fill:#222;} // coloro il fore dell'svg
+    
+    &:hover { // hover sul pulsante
+      background:#c7d6d9; // coloro il background di a
+      svg .toolsIconFore{fill:#000;} // color l'icona svg
+    }
+  }
+}
+
+
+#toolsContainer
+{
+  display:block;
+  width:$toolsContainerWidth;height:$toolsContainerHeight;
+  position:absolute;bottom:$toolHeight;left:0;
+  background:yellow;
+}
