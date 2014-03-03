@@ -14,8 +14,12 @@
   <body ng-app="app">
 
 	<!-- UI-VIEW invece di ng-view -->
-	<div ng-controller="poster">
+	<div resizable id="doc" ng-controller="doc" ng-style="{
+		width:windowWidth + 'px', height:windowHeight + 'px',
+		color:slides[activeSlide].color.docFore,
+		backgroundColor:slides[activeSlide].color.docBack
 		
+	}">
     	<div ui-view id="poster"></div>
 
     </div>

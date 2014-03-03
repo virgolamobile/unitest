@@ -4,12 +4,18 @@
 
 
 <ul id="slidesList">
-	<li ng-repeat="slide in slides" ng-click="changeSlide(slide)">{{slide.id}}</li>
+	<li ng-repeat="slide in slides" ng-click="changeSlide(slide.id)">{{slide.id}}</li>
 	<li ng-click="addSlide()">+</li>
 </ul>
 
-<div id="slide">
-
+<div id="slide" ng-style="{
+	color:slides[activeSlide].color.slideFore,
+	backgroundColor:slides[activeSlide].color.slideBack
+}">
+	{{slides[activeSlide].text}}
+	
+	<br /><br />
+	{{slides}}
 </div>
 
 <div ui-view></div>

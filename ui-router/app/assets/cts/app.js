@@ -2,9 +2,28 @@
 
 var app = angular.module('app', ['ngAnimate','ui.router']);
 
+
+app.directive('resizable', function($window) {
+	return function($scope) {
+		$scope.initializeWindowSize = function() {
+			$scope.windowHeight = $window.innerHeight;
+			return $scope.windowWidth = $window.innerWidth;
+		};
+		$scope.initializeWindowSize();
+		return angular.element($window).bind('resize', function() {
+			$scope.initializeWindowSize();
+			return $scope.$apply();
+		});
+	};
+});
+
+
 angular.module('app')
-.controller('poster', function ($scope) {
- 	
+.controller('doc', function ($scope,poster,$window) {
+	// ottengo le slides
+	$scope.slides = poster.getSlides();
+	$scope.activeSlide = poster.getActiveSlide();
+
 });
 
 // ma i servizi non sono che dei facade? mmh...
@@ -130,40 +149,53 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		templateUrl : "views/partials/poster/slide.html",
 		controller: function($scope,$state,poster)
 		{
-			$scope.slides = poster.getSlides();
-			// se nessuna, allora ne creo una.
-			if($scope.slides.length == 0) {
-				poster.addSlide();				
-			}
-			$scope.slides = poster.getSlides();
+			// init slides
+			poster.setActiveSlide(0);
 			
-			// la slide corrente
-			//$scope.activeSlide = poster.getActiveSlide();
-
 			// il cambio di slide è monitorato
 			$scope.$watch(
 				"slide",
-				function(newvalue,oldvalue)
+				function(newSlideId,oldSlideId)
 				{
-					// prima setto la slide attiva
-					poster.setActiveSlide(newvalue);
+					// se non esiste la creo
+					if(typeof newSlideId == 'undefined')
+					{
+						newSlideId = 0;
+					}
+					
+					// segnalo l'id della slide da considerare attiva
+					poster.setActiveSlide(newSlideId);
+					$scope.activeSlide = newSlideId;
 					
 					$state.transitionTo('poster.slide.editor.tools');
 				}
 			);
 			
+			// ottengo l'elenco delle slides.
+			$scope.slides = poster.getSlides();
+			
+			// quando cambio slide
 			$scope.changeSlide = function(slide)
 			{
 				// setto slide
 				$scope.slide = slide;
 			}
 			
+			// quando aggiungo una slide
 			$scope.addSlide = function()
 			{
 				// aggiungo una slide in coda
 				poster.addSlide();
 			}
+
+			$scope.currentStyle = {
+				color:poster.getColor('slideFore'),
+				backgroundColor:poster.getColor('slideBack')
+				// backgroundColor:$scope.slides[$scope.activeSlide].slideBack
+			};
+
 		}
+
 	})
 	.state('poster.slide.editor',
 	{
