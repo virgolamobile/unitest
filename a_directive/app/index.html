@@ -1,0 +1,41 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    
+    <style type="text/css">
+    	#slide {width:100px;height:150px;border:1px solid red;}
+    </style>
+    
+  </head>
+  <body ng-app="app">
+
+	<div ng-controller="appController">
+
+		<script type='text/ng-template' id='tool.text'>
+			<textarea ng-model="text" ng-change="setText()"></textarea>
+		</script>
+		
+		<script type='text/ng-template' id='slide'>
+			<div id="slide">{{poster}}</div>
+		</script>
+
+		<poster>
+			<slide></slide>
+			<text></text>
+		</poster>
+
+    </div>
+
+    <script src="../../bower_components/angular/angular.js"></script>
+	<script src="scripts/app.js"></script>
+
+</body>
+</html>
