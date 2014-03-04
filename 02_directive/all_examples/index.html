@@ -1,0 +1,105 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    
+    <style type="text/css" rel="stylesheet">
+    	body {
+    		margin:0;padding:0;
+    		background:#ccc;
+    	}
+    	#doc {
+    		background:#ace;
+    	}
+    	hr {
+    		height:1px;
+    		background:transparent;
+    		border:none;border-bottom:1px solid #8ac;
+    	}
+    	.btn {background:yellow;}
+    	.btn-ok {background:lightgreen;}
+    	.btn-no {background:red;}
+    	
+    	.bulb {display:block;width:20px;height:20px;}
+    	.bulb.on {background:yellow}
+    	.bulb.off {background:orange}
+    	
+    </style>
+    
+  </head>
+  <body ng-app="app">
+
+	<!-- UI-VIEW invece di ng-view -->
+	<div ng-controller="appController">
+    	<div id="doc" resizable ng-style="{width:windowWidth + 'px',height:windowHeight + 'px'}">
+			{{windowWidth}} x {{windowHeight}}
+			
+			<hr />
+			
+			<a href="http://goo.gl/ceZGf" immagine>Descrizione dell'immagine</a>
+			
+			<hr />
+			
+			<ntimes repeat="10">
+				<span>Lista</span>
+			</ntimes>
+			
+			<hr />
+			
+			<avatar user="virgolamobile">Utente</avatar>
+			
+			<hr />
+			
+			<div avatar2="Angular"></div>
+			
+			<hr />
+			
+			<script type='text/ng-template' id='template.html'>
+				<div>
+					<h1>{{title}}</h1>
+					<p>{{text}}</p>
+				</div>
+			</script>
+			<div usatemplate>Testo inutile</div>
+			
+			<hr />
+			
+			<a href="http://www.angularjs.org" btn checkbtn>Bottone</a>
+			
+			<hr />
+			
+			<stato ng-click="toggle()">{{status}}</stato>
+			
+			<hr />
+			
+			<powerswitch>
+				<lightbulb class="bulb" ng-class="bulb"></lightbulb>
+				
+				<button ng-click="togglepower()">{{powerstatus}}</button>	
+			</powerswitch>
+			
+			<hr />
+			
+			<script type='text/ng-template' id='marquee.html'>
+				<marquee ng-transclude></marquee>
+			</script>
+			<whoiam>{{name}}</whoaim>
+			
+    	</div>
+    </div>
+
+    <script src="../../bower_components/angular/angular.js"></script>
+    <script src="../../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="../../bower_components/angular-animate/angular-animate.min.js"></script>    
+
+	<script src="scripts/app.js"></script>
+
+</body>
+</html>
